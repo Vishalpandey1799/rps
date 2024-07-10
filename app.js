@@ -7,9 +7,12 @@ const result = document.querySelector(".ifornot p span");
 let humanScore = 0;
 let computerScore = 0;
 let score = 0;
-
+let chances = {
+    0: "Rock",
+    1: "Paper",
+    2: "Scissor",
+};
 const buttons = document.querySelectorAll("button");
-const choicesArray = ["Rock", "Paper", "Scissors"];
 
 buttons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -17,15 +20,19 @@ buttons.forEach((btn) => {
 
 
         let computerChoice = choices();
+        let usual = chances[computerChoice];
         score += 1;
         played.textContent = score;
 
-        if (userChoice === computerChoice) {
-            result.textContent = "It's a tie!";
+        if (userChoice === usual) {
+            result.textContent = "it's a tie";
         } else if (
-            (userChoice === "Rock" && computerChoice === "Scissors") ||
-            (userChoice === "Paper" && computerChoice === "Rock") ||
-            (userChoice === "Scissors" && computerChoice === "Paper")
+            (userChoice === "Paper" && usual === "Rock") ||
+            (userChoice === "Scissor" && usual === "Paper") ||
+            (userChoice === "Rock" && usual === "Scissor")
+
+
+
         ) {
             humanScore += 1;
             humanScoreElem.textContent = humanScore;
@@ -35,31 +42,27 @@ buttons.forEach((btn) => {
             computerScoreElem.textContent = computerScore;
             result.textContent = "Computer won this round!";
         }
+
+
+
+
     });
 });
 
 function choices() {
     let randomNumbers = Math.floor(Math.random() * 3);
-    console.log(randomNumbers);
-    let computerChoice = choicesArray[randomNumbers];
 
-    // kya fayda forEach sikh ke jab khud element pe jaake change karna pade
-    if (randomNumbers === 0) {
-        images[0].style.backgroundColor = "red";
-        images[1].style.backgroundColor = "";
-        images[2].style.backgroundColor = "";
-        // malum hai i can do it in one line of code 
-    }
-    if (randomNumbers === 1) {
-        images[1].style.backgroundColor = "red";
-        images[2].style.backgroundColor = "";
-        images[0].style.backgroundColor = "";
-    }
-    if (randomNumbers === 2) {
-        images[2].style.backgroundColor = "red";
-        images[0].style.backgroundColor = "";
-        images[1].style.backgroundColor = "";
-    }
 
-    return computerChoice;
+
+    images.forEach((img, index) => {
+        if (index === randomNumbers) {
+            img.style.backgroundColor = "red";
+        } else {
+            img.style.backgroundColor = "";
+
+        }
+    })
+
+    return randomNumbers;
+
 }
